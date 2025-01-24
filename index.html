@@ -352,11 +352,14 @@
             <div class="intro-text">
                 <h1>Hi, It's <span class="name">Aswath</span></h1>
                 <p class="title">I'm a <span class="role">Game Developer</span></p>
-                <p class="description">I am a self-taught game developer. I aspire to start a game production company and make story games.</p>
-                
+                <p class="description" id="typewriter"></p>
+                <a href="cv.pdf" download class="download-cv-btn">Download CV</a>
             </div>
         </div>
     </section>
+    
+    
+    
 
     <section id="products">
         <h2>My Games</h2>
@@ -644,6 +647,22 @@
     </div>
 
     <script>
+
+        const typewriterText = "I am a self-taught game developer. I aspire to start a game production company and make story games.";
+        const typewriterElement = document.getElementById("typewriter");
+        let i = 0;
+    
+        function typeWriterEffect() {
+            if (i < typewriterText.length) {
+                typewriterElement.textContent += typewriterText.charAt(i);
+                i++;
+                setTimeout(typeWriterEffect, 50); // Adjust the typing speed here
+            }
+        }
+    
+        // Start the typewriter effect on page load
+        window.onload = typeWriterEffect;
+
         function showSection(sectionId) {
             document.querySelectorAll('section').forEach(section => {
             section.classList.remove('active'); // Remove 'active' from all sections
