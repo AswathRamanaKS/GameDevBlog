@@ -12,7 +12,7 @@
             position: absolute;
             top: 0;
             left: 0;
-            idth: 100%;
+            width: 100%;
             height: 0; /* Completely hide non-active sections */
             overflow: hidden;
             transition: opacity 0.3s ease;
@@ -26,7 +26,141 @@
             opacity: 1; /* Make it visible */
             z-index: 1; /* Bring the active section to the front */
         }
+        /* General Styles */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #fff;
+            overflow: hidden;
+        }
 
+        .intro {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            height: 100vh;
+        }
+
+        .image-container {
+            flex: 1 1 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 70px;
+        }
+
+        .profile-photo img {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .intro-text {
+            flex: 2 1 500px;
+            margin: 10px;
+            text-align: left;
+        }
+
+        .intro-text h1, .about-text h2 {
+            margin: 10px 0;
+        }
+
+        .intro-text h1 span.highlight,
+        .intro-text h2 span.highlight {
+            color: #ff4500;
+        }
+
+        .intro-text p {
+            line-height: 1.8;
+            margin: 20px 0;
+        }
+
+        .download-cv-btn {
+            background-color: #ff4500;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .download-cv-btn:hover {
+            background-color: #ff5722;
+        }
+
+        @media (max-width: 768px) {
+            .intro-container {
+                display: flex;
+                flex-direction: column; /* Stack items vertically */
+                align-items: center; /* Center align items */
+                padding: 20px; /* Add some padding */
+                text-align: center; /* Center-align text */
+            }
+
+            .profile-photo img {
+                max-width: 100%; /* Ensure the image is responsive */
+                height: auto; /* Maintain aspect ratio */
+                border-radius: 50%; /* Keep it circular */
+            }
+
+            .intro-text {
+                margin-top: 20px; /* Add spacing between image and text */
+                width: 100%; /* Make sure text doesn't overflow */
+            }
+
+            .intro-text h1, 
+            .intro-text h2, 
+            .intro-text p {
+                word-wrap: break-word; /* Prevent long text from overflowing */
+            }
+
+            .download-btn {
+                margin-top: 20px; /* Add spacing */
+                padding: 10px 20px; /* Button padding */
+                font-size: 16px; /* Adjust button text size */
+                background-color: #ff4500;
+                color: #fff;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+            .download-btn:hover {
+                background-color: #ff5733;
+            }
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: #000;
+            z-index: 10; /* Ensure it stays on top of the content */
+            padding: 10px 0;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .navbar ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .navbar ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .navbar ul li a:hover {
+            color: #ff4500;
+        }
         header nav ul {
             position: fixed;
             top: 0;
@@ -342,20 +476,29 @@
                 <li><a href="#contact" onclick="showSection('contact')">Contact</a></li>
             </ul>
         </nav>
-    </header>
-
-    <section id="home" class="active">
+    </header>    
+    <section id = "home" class= "active">
         <div class="intro">
             <div class="image-container">
-                <img src="profpic.jpg" alt="Profile Picture">
+                <img src="profpic.jpg" alt="Profile Photo">
             </div>
             <div class="intro-text">
-                <h1>Hi, It's <span class="name">Aswath</span></h1>
-                <p class="title">I'm a <span class="role">Game Developer</span></p>
-                <p class="description" id="typewriter"></p>
+                <h1>Hi, It's <span class="highlight">Aswath</span></h1>
+                <h2>I'm a <span class="highlight">Game Developer</span></h2>
+                <p>
+                    Hi, I'm Aswath, an aspiring game developer passionate about creating immersive and story-driven gaming experiences.
+                    Currently, I'm honing my skills in game development with the Unity engine and expanding my creative capabilities by learning Blender for 3D modeling.
+                    As a Computer Science undergraduate specializing in Artificial Intelligence and Data Science,
+                    I aim to merge cutting-edge technologies with captivating storytelling to push the boundaries of interactive entertainment.
+                    My ultimate dream is to establish a game studio that brings unique and impactful stories to life. Until then, I’m open to exciting opportunities to collaborate, learn, and
+                    grow alongside like-minded developers and creators. I’m particularly drawn to projects that focus on narrative-driven gameplay and innovative design.
+                </p>
                 <a href="cv.pdf" download class="download-cv-btn">Download CV</a>
             </div>
         </div>
+        
+
+
     </section>
     
     
@@ -647,21 +790,6 @@
     </div>
 
     <script>
-
-        const typewriterText = "I am a self-taught game developer. I aspire to start a game production company and make story games.";
-        const typewriterElement = document.getElementById("typewriter");
-        let i = 0;
-    
-        function typeWriterEffect() {
-            if (i < typewriterText.length) {
-                typewriterElement.textContent += typewriterText.charAt(i);
-                i++;
-                setTimeout(typeWriterEffect, 50); // Adjust the typing speed here
-            }
-        }
-    
-        // Start the typewriter effect on page load
-        window.onload = typeWriterEffect;
 
         function showSection(sectionId) {
             document.querySelectorAll('section').forEach(section => {
