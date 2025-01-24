@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aswath's Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        section {
+
+            position: absolute;
+            top: 0;
+            left: 0;
+            idth: 100%;
+            height: 0; /* Completely hide non-active sections */
+            overflow: hidden;
+            transition: opacity 0.3s ease;
+            opacity: 0; /* Make them invisible */
+            z-index: -1; /* Send them behind the active section */
+        }
+
+        section.active {
+            position: static;
+            height: 100vh; /* Show the active section only */
+            opacity: 1; /* Make it visible */
+            z-index: 1; /* Bring the active section to the front */
+        }
+
+        header nav ul {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #222;
+            padding: 10px;
+            z-index: 1000;
+        }
+
+        .game {
+            border: 2px solid #444;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            position: relative;
+            transition: transform 0.3s;
+            overflow: hidden;
+        }
+
+        .game:hover {
+            transform: scale(1.02);
+        }
+
+        .game-poster {
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .game-poster img {
+            width: 300px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .game-poster img:hover {
+            transform: scale(1.1);
+        }
+
+        .game-details {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .game .more-info {
+            display: none;
+            margin-top: 10px;
+            border-top: 1px solid #444;
+            padding-top: 10px;
+        }
+
+        .game .video-container {
+            display: none;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .game .video-container iframe {
+            width: 100%;
+            max-width: 560px;
+            height: 315px;
+        }
+
+        .game .screenshots {
+            display: none;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .game .screenshots img {
+            width: 150px;
+            height: 100px;
+            object-fit: cover;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .game .screenshots img:hover {
+            transform: scale(1.1);
+        }
+
+        .game .more-btn, .game .screenshots-btn {
+            padding: 10px 20px;
+            background-color: #d04c4c;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .game .more-btn:hover, .game .screenshots-btn:hover {
+            background-color: #b03c3c;
+        }
+
+        .game.active .more-info {
+            display: block;
+        }
+
+        .game.active .video-container {
+            display: block;
+        }
+
+        .game.active .screenshots {
+            display: block;
+        }
+
+        .download-cv-btn {
+            padding: 10px 20px;
+            background-color: #d04c4c;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .download-cv-btn:hover {
+            background-color: #b03c3c;
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #222;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+        }
+
+        .popup img {
+            width: 90%; /* Increased size for larger display */
+            height: auto; /* Maintain aspect ratio */
+            max-width: 1000px; /* Cap maximum size */
+            border-radius: 10px; /* Rounded edges */
+        }
+
+
+        .popup-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: #fff;
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+        }
+
+        .overlay.active, .popup.active {
+            display: block;
+        }
+
+        #products {
+            overflow-y: auto;
+            height: 100vh;
+        }
+
+        /* Customize the scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px; /* Width of the vertical scrollbar */
+            height: 8px; /* Height of the horizontal scrollbar */
+        }
+
+        /* Scrollbar track */
+        ::-webkit-scrollbar-track {
+            background: #333; /* Dark grey background for the track */
+        }
+
+        /* Scrollbar handle (thumb) */
+        ::-webkit-scrollbar-thumb {
+            background: #555; /* Slightly lighter grey for the thumb */
+            border-radius: 10px; /* Rounded corners for the thumb */
+        }
+
+        /* Scrollbar handle hover effect */
+        ::-webkit-scrollbar-thumb:hover {
+            background: #222; /* Black when hovered */
+        }
+
+        #experience {
+            font-family: Arial, sans-serif;
+        }
+        .experience-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .experience-item {
+            display: block;
+            padding: 20px;
+            background-color: #f0f0f0;
+            border-radius: 20px;
+            width: 300px;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            text-decoration: none;
+            color: black;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .experience-item:hover {
+            transform: scale(1.1);
+            background-color: #e0e0e0;
+        }
+        .experience-item strong {
+            font-size: 1.2rem;
+            display: block;
+            margin-bottom: 5px;
+        }
+        .experience-item em {
+            font-style: italic;
+            display: block;
+            margin-bottom: 10px;
+            color: #666;
+        }
+        #skills {
+            font-family: Arial, sans-serif;
+        }
+        .skill-category {
+            margin-bottom: 30px;
+        }
+        .skills-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .skill-item {
+            display: block;
+            padding: 15px;
+            background-color: #3b3939;
+            border-radius: 20px;
+            text-decoration: none;
+            color: rgb(212, 201, 201);
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            font-size: 1rem;
+        }
+        .skill-item:hover {
+            transform: scale(1.1);
+            background-color: #000000;
+        }
+        .skill-category h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        #contact {
+            font-family: Arial, sans-serif;
+        }
+        .contact-details {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .contact-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 10px;
+            text-decoration: none;
+            color: black;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .contact-item:hover {
+            background-color: #e0e0e0;
+        }
+        .contact-item i {
+            margin-right: 10px;
+        }
+        /* Popup notification style */
+        .copy-notification {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 20px;
+            background-color: #4caf50;
+            color: white;
+            border-radius: 5px;
+            display: none;
+            font-size: 1rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#home" onclick="showSection('home')">Home</a></li>
+                <li><a href="#products" onclick="showSection('products')">Games</a></li>
+                <li><a href="#skills" onclick="showSection('skills')">Skills</a></li>
+                <li><a href="#experience" onclick="showSection('experience')">Experience</a></li>
+                <li><a href="#contact" onclick="showSection('contact')">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="home" class="active">
+        <div class="intro">
+            <div class="image-container">
+                <img src="profpic.jpg" alt="Profile Picture">
+            </div>
+            <div class="intro-text">
+                <h1>Hi, It's <span class="name">Aswath</span></h1>
+                <p class="title">I'm a <span class="role">Game Developer</span></p>
+                <p class="description">I am a self-taught game developer. I aspire to start a game production company and make story games.</p>
+                <a href="cv.pdf" download class="download-cv-btn">Download CV</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="products">
+        <h2>My Games</h2>
+        <div class="game" id="game1">
+            <div class="game-poster">
+                <img src="Game Posters/FMN.png" alt="Game 1 Poster" onclick="toggleGameDetails('game1')">
+            </div>
+            <div class="game-details">
+                <h3>Forget Me Not</h3>
+                <p>Co-op Split-Screen Puzzle Game.</p>
+                <button class="more-btn" onclick="toggleGameDetails('game1')">Know More</button>
+                <div class="more-info">
+                    <p>A unique co-op experience where two players must work together to play minigames and escape a cell phone they’re mysteriously trapped in. <br>
+                        The narrative follows two lovers who, after a heated breakup over the phone, discover memories of their past relationship through gameplay.<br>
+                        Inspired by the "forget-me-not" flower, symbolizing love and remembrance.<br>
+                        Players face an emotional choice at the end: to stay together or part ways forever.</p>
+                    <div class="video-container">
+                        <iframe src="https://drive.google.com/file/d/1akh5lS3hc4ojqLv5-pJ5SvAkmlq7GAHD/preview" width="640" height="480" allow="autoplay" allowfullscreen></iframe>
+                    </div>
+                    <button class="screenshots-btn" onclick="toggleScreenshots('game1')">Screenshots <i class="fas fa-chevron-down"></i></button>
+                    <div class="screenshots">
+                        <img src="Game Images/FMN/FMNSS1.jpg"  alt="ScreenshotFMN1" onclick="openPopup(this)">
+                        <img src="Game Images/FMN/FMNSS2.jpg"  alt="ScreenshotFMN2" onclick="openPopup(this)">
+                        <img src="Game Images/FMN/FMNSS3.jpg"  alt="ScreenshotFMN3" onclick="openPopup(this)">
+                        <img src="Game Images/FMN/FMNSS4.jpg"  alt="ScreenshotFMN4" onclick="openPopup(this)">
+                        <img src="Game Images/FMN/FMNSS5.jpg"  alt="ScreenshotFMN5" onclick="openPopup(this)">
+                        <img src="Game Images/FMN/FMNSS6.jpg"  alt="ScreenshotFMN6" onclick="openPopup(this)">
+                        <img src="Game Images/FMN/FMNSS7.jpg"  alt="ScreenshotFMN7" onclick="openPopup(this)">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="game" id="game2">
+            <div class="game-poster">
+                <img src="Game Posters/PPB.jpeg" alt="Game 2 Poster" onclick="toggleGameDetails('game2')">
+            </div>
+            <div class="game-details">
+                <h3>Racing Project (Under Development)</h3>
+                <p>Online Multiplayer Parkour Racing Game.</p>
+                <button class="more-btn" onclick="toggleGameDetails('game2')">Know More</button>
+                <div class="more-info">
+                    <p>A fast-paced online game where players race cars on intricate, gravity-defying tracks suspended in midair.<br>
+                        Features dynamic parkour-inspired mechanics, challenging obstacles, and competitive gameplay.
+                        The first to conquer the tricky track claims victory.</p>
+                    <div class="video-container">
+                        <iframe 
+                            src="https://www.youtube.com/embed/UznLc8gpFAM"
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                    <button class="screenshots-btn" onclick="toggleScreenshots('game2')">Screenshots <i class="fas fa-chevron-down"></i></button>
+                    <div class="screenshots">
+                        <img src="Game Images/PPB/PPB1.jpeg" alt="ScreenshotPPB1" onclick="openPopup(this)">
+                        <img src="Game Images/PPB/PPB2.jpeg" alt="ScreenshotPPB2" onclick="openPopup(this)">
+                        <img src="Game Images/PPB/PPB3.jpeg" alt="ScreenshotPPB3" onclick="openPopup(this)">
+                        <img src="Game Images/PPB/PPB4.jpeg" alt="ScreenshotPPB4" onclick="openPopup(this)">
+                        <img src="Game Images/PPB/PPB5.jpeg" alt="ScreenshotPPB5" onclick="openPopup(this)">
+                        <img src="Game Images/PPB/PPB6.jpeg" alt="ScreenshotPPB6" onclick="openPopup(this)">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="game" id="game3">
+            <div class="game-poster">
+                <img src="Game Posters/BOB.png" alt="Game 3 Poster" onclick="toggleGameDetails('game3')">
+            </div>
+            <div class="game-details">
+                <h3>Ballad Of The Brave</h3>
+                <p>Mission-Based FPS Shooter.</p>
+                <button class="more-btn" onclick="toggleGameDetails('game3')">Know More</button>
+                <div class="more-info">
+                    <p>A stealth-based first-person shooter where two soldiers are tasked with infiltrating enemy territory to retrieve vital intelligence. <br>
+                        Players must employ stealth and strategy to avoid detection while completing their mission.</p>
+                    <div class="video-container">
+                        <iframe 
+                            src="https://www.youtube.com/embed/jCPbM1BrVrA"
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                    <button class="screenshots-btn" onclick="toggleScreenshots('game3')">Screenshots <i class="fas fa-chevron-down"></i></button>
+                    <div class="screenshots">
+                        <img src="Game Images/BOB/BOB1.jpg" alt="ScreenshotBOB1" onclick="openPopup(this)">
+                        <img src="Game Images/BOB/BOB2.jpg" alt="ScreenshotBOB2" onclick="openPopup(this)">
+                        <img src="Game Images/BOB/BOB3.jpg" alt="ScreenshotBOB3" onclick="openPopup(this)">
+                        <img src="Game Images/BOB/BOB4.jpg" alt="ScreenshotBOB4" onclick="openPopup(this)">
+                        <img src="Game Images/BOB/BOB5.jpg" alt="ScreenshotBOB5" onclick="openPopup(this)">
+                        <img src="Game Images/BOB/BOB6.jpg" alt="ScreenshotBOB6" onclick="openPopup(this)">
+                        <img src="Game Images/BOB/BOB7.jpg" alt="ScreenshotBOB7" onclick="openPopup(this)">
+                        <img src="Game Images/BOB/BOB8.jpg" alt="ScreenshotBOB8" onclick="openPopup(this)">
+                        <img src="Game Images/BOB/BOB9.jpg" alt="ScreenshotBOB9" onclick="openPopup(this)">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="game" id="game4">
+            <div class="game-poster">
+                <img src="Game Posters/ROD.png" alt="Game 4 Poster" onclick="toggleGameDetails('game4')">
+            </div>
+            <div class="game-details">
+                <h3>Rise of the Dead</h3>
+                <p>2D Puzzle Platformer.</p>
+                <button class="more-btn" onclick="toggleGameDetails('game4')">Know More</button>
+                <div class="more-info">
+                    <p>A medieval zombie survival game where players solve intricate puzzles and battle hordes of undead to escape a cursed castle.<br>
+                        Combines platforming challenges with strategic puzzle-solving in a haunting 2D environment.</p>
+                    <div class="video-container">
+                        <iframe src="https://drive.google.com/file/d/1j0QH8wpV4fXFNysie4MsYAyYLrniiu44/preview" width="640" height="480" allow="autoplay" allowfullscreen></iframe>
+                    </div>
+                    <button class="screenshots-btn" onclick="toggleScreenshots('game4')">Screenshots <i class="fas fa-chevron-down"></i></button>
+                    <div class="screenshots">
+                        <img src="Game Images/ROD/ROD1.jpeg" alt="ScreenshotROD1" onclick="openPopup(this)">
+                        <img src="Game Images/ROD/ROD2.jpeg" alt="ScreenshotROD1" onclick="openPopup(this)">
+                        <img src="Game Images/ROD/ROD3.jpeg" alt="ScreenshotROD1" onclick="openPopup(this)">
+                        <img src="Game Images/ROD/ROD4.jpeg" alt="ScreenshotROD1" onclick="openPopup(this)">
+                        <img src="Game Images/ROD/ROD5.jpeg" alt="ScreenshotROD1" onclick="openPopup(this)">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="game" id="game5">
+            <div class="game-poster">
+                <img src="Game Posters/TheEscape.jpg" alt="Game 5 Poster" onclick="toggleGameDetails('game5')">
+            </div>
+            <div class="game-details">
+                <h3>The Escape</h3>
+                <p>3D Horror Puzzle Game.</p>
+                <button class="more-btn" onclick="toggleGameDetails('game5')">Know More</button>
+                <div class="more-info">
+                    <p> A spine-chilling horror experience where players must solve complex puzzles to escape a mysterious room before their sanity runs out.<br>    
+                        Failure to escape in time results in a terrifying encounter with a ghostly presence.
+                    </p>
+                    <div class="video-container">
+                        <iframe 
+                            src="https://www.youtube.com/embed/sLOwnJ7QhYU"
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                    <button class="screenshots-btn" onclick="toggleScreenshots('game5')">Screenshots <i class="fas fa-chevron-down"></i></button>
+                    <div class="screenshots">
+                        <img src="Game Images/TheEscape/TE1.jpeg" alt="ScreenshotTE1" onclick="openPopup(this)">
+                        <img src="Game Images/TheEscape/TE2.jpeg" alt="ScreenshotTE1" onclick="openPopup(this)">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="game" id="game6">
+            <div class="game-poster">
+                <img src="Game Posters/SpiderGame.png" alt="Game 6 Poster" onclick="toggleGameDetails('game6')">
+            </div>
+            <div class="game-details">
+                <h3>Spider Game (Under Development)</h3>
+                <p>Third-Person Action-Adventure.</p>
+                <button class="more-btn" onclick="toggleGameDetails('game6')">Know More</button>
+                <div class="more-info">
+                    <p>An action-packed adventure where the player must defeat a powerful spider to escape a dark cave.<br>
+                        Features unique powers and abilities for both the player and the spider, enhancing the gameplay with exciting combat dynamics.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="game" id="game7">
+            <div class="game-poster">
+                <img src="Game Posters/ApeOut.jpg" alt="Game 7 Poster" onclick="toggleGameDetails('game7')">
+            </div>
+            <div class="game-details">
+                <h3>Ape Out 3D</h3>
+                <p>Third-Person Beat 'Em Up.</p>
+                <button class="more-btn" onclick="toggleGameDetails('game7')">Know More</button>
+                <div class="more-info">
+                    <p>A 3D reimagining of the iconic Ape Out game, where players control a gorilla trying to escape from a high-security scientific facility.<br>
+                        Offers a blend of stealth, combat, and maze-like exploration as players outwit guards and find their way to freedom.
+                    </p>
+                    <div class="video-container">
+                        <iframe 
+                            src="https://www.youtube.com/embed/YTczhV_HfZM"
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                    <button class="screenshots-btn" onclick="toggleScreenshots('game7')">Screenshots <i class="fas fa-chevron-down"></i></button>
+                    <div class="screenshots">
+                        <img src="Game Images/APEOUT3D/AO1.jpeg" alt="ScreenshotAO1" onclick="openPopup(this)">
+                        <img src="Game Images/APEOUT3D/AO2.jpeg" alt="ScreenshotAO2" onclick="openPopup(this)">
+                        <img src="Game Images/APEOUT3D/AO3.jpeg" alt="ScreenshotAO3" onclick="openPopup(this)">
+                        <img src="Game Images/APEOUT3D/AO4.jpeg" alt="ScreenshotAO4" onclick="openPopup(this)">
+                        <img src="Game Images/APEOUT3D/AO5.jpeg" alt="ScreenshotAO5" onclick="openPopup(this)">
+                        <img src="Game Images/APEOUT3D/AO6.jpeg" alt="ScreenshotAO6" onclick="openPopup(this)">
+                        <img src="Game Images/APEOUT3D/AO7.jpeg" alt="ScreenshotAO7" onclick="openPopup(this)">
+                    </div>
+                </div>
+            </div>
+        </div>  
+    </section>
+
+    <section id="skills">
+        <h2>Skills</h2>
+        <div class="skill-category">
+            <h3>Game Development Skills</h3>
+            <div class="skills-container">
+                <a href="#" class="skill-item">Unity</a>                
+                <a href="#" class="skill-item">3D Modelling (Blender)</a>
+                <a href="#" class="skill-item">2D/3D Animations and Rigging (Blender)</a>
+            </div>
+        </div>
+    
+        <div class="skill-category">
+            <h3>Non-Game Dev Skills</h3>
+            <div class="skills-container">
+                <a href="#" class="skill-item">Languages: Python, C, Java, C#, SQL, HTML, CSS</a>
+                <a href="#" class="skill-item">Developer Tools: VS Code, Eclipse, Jupyter, Unity Engine, Google Colab, Blender</a>
+                <a href="#" class="skill-item">Concepts: Operating Systems, Data Structures, Computer Organisation and Architecture, Design and Analysis of Algorithms, AI, ML, Deep Learning, Data Analysis, Data Visualisation, Database Management, Software Development, Pattern Recognition, Computer Vision, NLP, OCR</a>
+                <a href="#" class="skill-item">Soft Skills: Communication, Teamwork, Problem Solving, Decision-Making, Time Management, Creativity</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="experience">
+        <h2>Experience</h2>
+        <p>Game Development Experience</p>
+        <div class="experience-list">
+            <a href="#" class="experience-item">
+                <strong>Xplay 2023</strong><br>
+                <em>SRM Institute of Science and Technology, Kattankulathur, Chennai</em><br>
+                <strong>3rd Place</strong><br>
+            </a>
+            <a href="#" class="experience-item">
+                <strong>Glitchpop 3.0 - Game Jam 2024</strong><br>
+                <em>Indian Institute of Technology, Indore</em><br>
+            </a>
+            <a href="#" class="experience-item">
+                <strong>Gamevita 3.0 - 2024</strong><br>
+                <em>Indian Institute of Technology, Indore</em><br>
+                <strong>2nd Place</strong><br>
+            </a>
+            <a href="#" class="experience-item">
+                <strong>MayaaVerse Mastermind: Game Development Hackathon</strong><br>
+            </a>
+            <a href="#" class="experience-item">
+                <strong>Summer JAM</strong><br>
+                <em>Indian Institute of Technology, Indian School of Mines (IIT ISM), Dhanbad</em><br>
+            </a>
+            <a href="#" class="experience-item">
+                <strong>Xplay 2024</strong><br>
+                <em>SRM Institute of Science and Technology, Kattankulathur, Chennai</em><br>
+            </a>
+        </div>
+    </section>
+
+    <section id="contact">
+        <h2>Contact Me</h2>
+        <p>Feel free to reach out via email, phone, LinkedIn, or Discord.</p>
+        <div class="contact-details">
+            <!-- Email and Phone number are clickable but will copy to clipboard -->
+            <a href="javascript:void(0);" class="contact-item" title="Email" onclick="copyToClipboard('aswathramana1310@gmail.com')">
+                <i class="fas fa-envelope"></i> aswathramana1310@gmail.com
+            </a>
+            <a href="javascript:void(0);" class="contact-item" title="Phone" onclick="copyToClipboard('+91 9150457603')">
+                <i class="fas fa-phone"></i> +91 9150457603
+            </a>
+            <!-- LinkedIn and Discord with target="_blank" -->
+            <a href="https://www.linkedin.com/in/aswath1310/" class="contact-item" title="LinkedIn" target="_blank">
+                <i class="fab fa-linkedin"></i> LinkedIn Profile
+            </a>
+            <a href="https://discord.com/users/gamerthamizhan" class="contact-item" title="Discord" target="_blank">
+                <i class="fab fa-discord"></i> gamerthamizhan
+            </a>
+        </div>
+    
+        <!-- Popup Notification -->
+        <div id="copy-notification" class="copy-notification">Copied to clipboard!</div>
+    </section>
+
+    <div class="overlay" id="overlay" onclick="closePopup()"></div>
+    <div class="popup" id="popup">
+        <span class="popup-close" onclick="closePopup()">&times;</span>
+        <img src="" alt="Popup Image" id="popup-img">
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            document.querySelectorAll('section').forEach(section => {
+            section.classList.remove('active'); // Remove 'active' from all sections
+            });
+            const activeSection = document.getElementById(sectionId);
+            activeSection.classList.add('active'); // Add 'active' to the selected section
+        }
+
+        function toggleGameDetails(gameId) {
+            const game = document.getElementById(gameId);
+            game.classList.toggle('active');
+        }
+
+        function toggleScreenshots(gameId) {
+            const game = document.getElementById(gameId);
+            const screenshots = game.querySelector('.screenshots');
+            screenshots.style.display = screenshots.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function openPopup(image) {
+            const popup = document.getElementById('popup');
+            const overlay = document.getElementById('overlay');
+            const popupImg = document.getElementById('popup-img');
+            popupImg.src = image.src;
+            popup.classList.add('active');
+            overlay.classList.add('active');
+        }
+
+        function closePopup() {
+            const popup = document.getElementById('popup');
+            const overlay = document.getElementById('overlay');
+
+            popup.classList.remove('active');
+            overlay.classList.remove('active');
+        }
+        function copyToClipboard(text) {
+        // Create a temporary input element to hold the text
+            const textarea = document.createElement("textarea");
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand("copy");
+            document.body.removeChild(textarea);
+
+            // Show the popup notification
+            const notification = document.getElementById("copy-notification");
+            notification.style.display = "block";
+        
+            // Hide the notification after 2 seconds
+            setTimeout(() => {
+              notification.style.display = "none";
+            }, 2000);
+    }
+    </script>
+</body>
+</html>
+
