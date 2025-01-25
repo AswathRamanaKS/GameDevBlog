@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         section {
-
             position: absolute;
             top: 0;
             left: 0;
@@ -36,6 +35,12 @@
             font-family: Arial, sans-serif;
             background-color: #121212;
             color: #fff;
+        }
+        #home {
+            height: 100vh; /* Full viewport height */
+            overflow-y: auto; /* Enables vertical scrolling */
+            padding: 16px; /* Adds some padding for mobile */
+            box-sizing: border-box; /* Ensures padding doesn't affect the width/height */
         }
 
         .intro {
@@ -96,6 +101,12 @@
         }
 
         @media (max-width: 768px) {
+            #home {
+                height: auto; /* Allows content to adjust dynamically */
+            }
+            body {
+                overflow-y: scroll; /* Add scroll bar only in mobile view */
+            }
             .intro-container {
                 display: flex;
                 flex-direction: column; /* Stack items vertically */
@@ -502,9 +513,6 @@
                 <a href="cv.pdf" download class="download-cv-btn">Download CV</a>
             </div>
         </div>
-        
-
-
     </section>
     
     
