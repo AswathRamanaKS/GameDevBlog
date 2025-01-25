@@ -21,9 +21,9 @@
 
         section.active {
             position: static;
-            height: 100vh; /* Show the active section only */
-            opacity: 1; /* Make it visible */
-            z-index: 1; /* Bring the active section to the front */
+            height: 100vh;
+            opacity: 1;
+            z-index: 1;
         }
 
         html, body {
@@ -37,10 +37,10 @@
             color: #fff;
         }
         #home {
-            height: 100vh; /* Full viewport height */
-            overflow-y: auto; /* Enables vertical scrolling */
-            padding: 16px; /* Adds some padding for mobile */
-            box-sizing: border-box; /* Ensures padding doesn't affect the width/height */
+            height: 100vh;
+            overflow-y: auto;
+            padding: 16px;
+            box-sizing: border-box;
         }
 
         .intro {
@@ -377,6 +377,11 @@
 
         #experience {
             font-family: Arial, sans-serif;
+            height: 100vh; /* Full viewport height */
+            overflow-y: auto; /* Enables vertical scrolling */
+            padding: 16px; /* Adds some padding for mobile */
+            box-sizing: border-box; /* Ensures padding doesn't affect width/height */
+            background-color: #3b3b3b; 
         }
         .experience-list {
             display: flex;
@@ -386,7 +391,7 @@
         .experience-item {
             display: block;
             padding: 20px;
-            background-color: #f0f0f0;
+            background-color: #a09d9d;
             border-radius: 20px;
             width: 300px;
             transition: transform 0.3s ease, background-color 0.3s ease;
